@@ -12,14 +12,22 @@ export class OrderService {
   readonly orders$ = this.ordersSubject.asObservable();
 
   constructor(@Inject(APP_CONFIG) private config: AppConfig) {
-    const stored = localStorage.getItem('orders');
-    if (stored) {
-      this.ordersSubject.next(JSON.parse(stored));
+    try {
+      const stored = localStorage.getItem('orders');
+      if (stored) {
+        this.ordersSubject.next(JSON.parse(stored));
+      }
+    } catch {
+      this.ordersSubject.next([]);
     }
   }
 
   private save() {
-    localStorage.setItem('orders', JSON.stringify(this.ordersSubject.value));
+    try {
+      localStorage.setItem('orders', JSON.stringify(this.ordersSubject.value));
+    } catch {
+      // ignore storage write errors
+    }
   }
 
   /**

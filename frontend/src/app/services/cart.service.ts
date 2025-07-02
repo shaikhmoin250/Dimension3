@@ -20,14 +20,23 @@ export class CartService {
   }
 
   constructor() {
-    const stored = localStorage.getItem('cart');
-    if (stored) {
-      this.itemsSubject.next(JSON.parse(stored));
+    try {
+      const stored = localStorage.getItem('cart');
+      if (stored) {
+        this.itemsSubject.next(JSON.parse(stored));
+      }
+    } catch {
+      // ignore parse errors and start with an empty cart
+      this.itemsSubject.next([]);
     }
   }
 
   private save() {
-    localStorage.setItem('cart', JSON.stringify(this.itemsSubject.value));
+    try {
+      localStorage.setItem('cart', JSON.stringify(this.itemsSubject.value));
+    } catch {
+      // ignore storage write errors
+    }
   }
 
   /**

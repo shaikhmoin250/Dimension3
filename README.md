@@ -25,3 +25,10 @@ npm start
 ```
 
 This will start the Angular development server.
+
+### Error handling
+
+The application registers a global `ErrorHandler` that logs unexpected errors to
+the console and displays a toast notification. Local storage operations in the
+core services are wrapped in `try/catch` blocks so the app can recover from
+corrupt data or quota failures.

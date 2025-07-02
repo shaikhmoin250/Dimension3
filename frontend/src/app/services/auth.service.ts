@@ -22,18 +22,30 @@ export class AuthService {
   }
 
   constructor(@Inject(APP_CONFIG) private config: AppConfig) {
-    const session = sessionStorage.getItem('session');
-    if (session) {
-      this.currentUserSubject.next(session);
+    try {
+      const session = sessionStorage.getItem('session');
+      if (session) {
+        this.currentUserSubject.next(session);
+      }
+    } catch {
+      // ignore read errors
     }
   }
 
   private getUsers(): User[] {
-    return JSON.parse(localStorage.getItem('users') || '[]');
+    try {
+      return JSON.parse(localStorage.getItem('users') || '[]');
+    } catch {
+      return [];
+    }
   }
 
   private saveUsers(users: User[]) {
-    localStorage.setItem('users', JSON.stringify(users));
+    try {
+      localStorage.setItem('users', JSON.stringify(users));
+    } catch {
+      // ignore storage errors
+    }
   }
 
   /**
@@ -52,13 +64,17 @@ export class AuthService {
     if (!user) {
       return false;
     }
-    const hash = await this.sha256(p + user.salt);
-    if (hash === user.passwordHash) {
-      this.currentUserSubject.next(u);
-      sessionStorage.setItem('session', u);
-      return true;
+    try {
+      const hash = await this.sha256(p + user.salt);
+      if (hash === user.passwordHash) {
+        this.currentUserSubject.next(u);
+        sessionStorage.setItem('session', u);
+        return true;
+      }
+      return false;
+    } catch {
+      return false;
     }
-    return false;
   }
 
   /**
@@ -73,12 +89,16 @@ export class AuthService {
     const salt = Array.from(saltBytes)
       .map(b => b.toString(16).padStart(2, '0'))
       .join('');
-    const passwordHash = await this.sha256(p + salt);
-    users.push({ username: u, passwordHash, salt });
-    this.saveUsers(users);
-    this.currentUserSubject.next(u);
-    sessionStorage.setItem('session', u);
-    return true;
+    try {
+      const passwordHash = await this.sha256(p + salt);
+      users.push({ username: u, passwordHash, salt });
+      this.saveUsers(users);
+      this.currentUserSubject.next(u);
+      sessionStorage.setItem('session', u);
+      return true;
+    } catch {
+      return false;
+    }
   }
 
   /**
@@ -86,6 +106,10 @@ export class AuthService {
    */
   logout() {
     this.currentUserSubject.next(null);
-    sessionStorage.removeItem('session');
+    try {
+      sessionStorage.removeItem('session');
+    } catch {
+      // ignore storage errors
+    }
   }
 }
