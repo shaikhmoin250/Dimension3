@@ -21,7 +21,7 @@ export class AuthService {
   }
 
   constructor() {
-    const session = localStorage.getItem('session');
+    const session = sessionStorage.getItem('session');
     if (session) {
       this.currentUserSubject.next(session);
     }
@@ -38,11 +38,23 @@ export class AuthService {
   /**
    * Attempt a login with username and password.
    */
-  login(u: string, p: string): boolean {
-    const user = this.getUsers().find(x => x.username === u && x.password === p);
-    if (user) {
+  private async sha256(value: string): Promise<string> {
+    const data = new TextEncoder().encode(value);
+    const hash = await crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(hash))
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('');
+  }
+
+  async login(u: string, p: string): Promise<boolean> {
+    const user = this.getUsers().find(x => x.username === u);
+    if (!user) {
+      return false;
+    }
+    const hash = await this.sha256(p + user.salt);
+    if (hash === user.passwordHash) {
       this.currentUserSubject.next(u);
-      localStorage.setItem('session', u);
+      sessionStorage.setItem('session', u);
       return true;
     }
     return false;
@@ -51,15 +63,20 @@ export class AuthService {
   /**
    * Create a new user account and log them in.
    */
-  register(u: string, p: string): boolean {
+  async register(u: string, p: string): Promise<boolean> {
     const users = this.getUsers();
     if (users.find(x => x.username === u)) {
       return false;
     }
-    users.push({ username: u, password: p });
+    const saltBytes = crypto.getRandomValues(new Uint8Array(16));
+    const salt = Array.from(saltBytes)
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('');
+    const passwordHash = await this.sha256(p + salt);
+    users.push({ username: u, passwordHash, salt });
     this.saveUsers(users);
     this.currentUserSubject.next(u);
-    localStorage.setItem('session', u);
+    sessionStorage.setItem('session', u);
     return true;
   }
 
@@ -68,6 +85,6 @@ export class AuthService {
    */
   logout() {
     this.currentUserSubject.next(null);
-    localStorage.removeItem('session');
+    sessionStorage.removeItem('session');
   }
 }

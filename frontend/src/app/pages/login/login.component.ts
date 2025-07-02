@@ -12,8 +12,9 @@ export class LoginComponent {
   username = '';
   password = '';
   constructor(private auth: AuthService, private router: Router, private toast: ToastService) {}
-  login() {
-    if (this.auth.login(this.username, this.password)) {
+
+  async login() {
+    if (await this.auth.login(this.username, this.password)) {
       this.toast.show('Logged in');
       this.router.navigate(['/']);
     } else {

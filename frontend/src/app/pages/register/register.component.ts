@@ -12,8 +12,9 @@ export class RegisterComponent {
   username = '';
   password = '';
   constructor(private auth: AuthService, private router: Router, private toast: ToastService) {}
-  register() {
-    if (this.auth.register(this.username, this.password)) {
+
+  async register() {
+    if (await this.auth.register(this.username, this.password)) {
       this.toast.show('Account created');
       this.router.navigate(['/']);
     } else {

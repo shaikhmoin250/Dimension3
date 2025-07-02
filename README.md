@@ -6,6 +6,8 @@ The application is organized into a set of reusable services and small data mode
 
 Major services expose RxJS observables so components can consume state using the `async` pipe. This reactive pattern keeps components lean and testable.
 
+User credentials are stored securely in browser storage using salted SHA-256 hashes rather than plain text. Sessions are kept in `sessionStorage` so they clear when the tab closes.
+
 ## Setup
 
 ```bash
