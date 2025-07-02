@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Product, SortOption } from '../models';
+import { APP_CONFIG, AppConfig } from '../config/app-config';
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
@@ -19,6 +20,8 @@ export class ProductService {
    * Observable stream of all products.
    */
   readonly products$ = this.productsSubject.asObservable();
+
+  constructor(@Inject(APP_CONFIG) private config: AppConfig) {}
 
   /**
    * Retrieve a copy of all products.

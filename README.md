@@ -4,6 +4,14 @@ This repository contains a simple Angular e-commerce frontend. It includes basic
 
 The application is organized into a set of reusable services and small data models under `src/app/models`.
 
+The codebase now follows a modular structure:
+
+* `core` module provides singletons like services and application configuration.
+* `shared` module contains reusable UI components.
+* feature modules (`auth` and `shop`) declare pages and are lazy loaded via the router.
+
+Runtime settings are provided through the `environment` files under `src/environments` and injected using an `APP_CONFIG` token. This makes it easy to swap configuration for different deployments.
+
 Major services expose RxJS observables so components can consume state using the `async` pipe. This reactive pattern keeps components lean and testable.
 
 User credentials are stored securely in browser storage using salted SHA-256 hashes rather than plain text. Sessions are kept in `sessionStorage` so they clear when the tab closes.

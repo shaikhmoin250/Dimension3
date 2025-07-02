@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { User } from '../models';
+import { APP_CONFIG, AppConfig } from '../config/app-config';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -20,7 +21,7 @@ export class AuthService {
     return !!this.currentUserSubject.value;
   }
 
-  constructor() {
+  constructor(@Inject(APP_CONFIG) private config: AppConfig) {
     const session = sessionStorage.getItem('session');
     if (session) {
       this.currentUserSubject.next(session);

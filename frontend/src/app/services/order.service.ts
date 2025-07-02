@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Order, CartItem, ShippingInfo, PaymentInfo } from '../models';
+import { APP_CONFIG, AppConfig } from '../config/app-config';
 
 @Injectable({ providedIn: 'root' })
 export class OrderService {
@@ -10,7 +11,7 @@ export class OrderService {
    */
   readonly orders$ = this.ordersSubject.asObservable();
 
-  constructor() {
+  constructor(@Inject(APP_CONFIG) private config: AppConfig) {
     const stored = localStorage.getItem('orders');
     if (stored) {
       this.ordersSubject.next(JSON.parse(stored));
