@@ -3,3 +3,5 @@
   <li *ngFor="let item of order?.items">{{ item.name }} x {{ item.qty }}</li>
 </ul>
 <p>Status: {{ order?.status }}</p>
+<p>Shipping Address: {{ order?.shipping?.address }}</p>
+<p>Payment: ****{{ order?.payment?.card?.slice(-4) }}</p>

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-register',
@@ -10,10 +11,13 @@ import { AuthService } from '../../services/auth.service';
 export class RegisterComponent {
   username = '';
   password = '';
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(private auth: AuthService, private router: Router, private toast: ToastService) {}
   register() {
     if (this.auth.register(this.username, this.password)) {
+      this.toast.show('Account created');
       this.router.navigate(['/']);
+    } else {
+      this.toast.show('User already exists');
     }
   }
 }

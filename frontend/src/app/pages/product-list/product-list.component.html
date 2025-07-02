@@ -1,5 +1,25 @@
 <h2>Products</h2>
+<app-search-bar (search)="onSearch($event)"></app-search-bar>
+
+<label>
+  Category:
+  <select [(ngModel)]="category" (change)="applyFilters()">
+    <option value="">All</option>
+    <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
+  </select>
+</label>
+
+<label>
+  Sort:
+  <select [(ngModel)]="sort" (change)="applyFilters()">
+    <option value="">Default</option>
+    <option value="priceAsc">Price Low - High</option>
+    <option value="priceDesc">Price High - Low</option>
+    <option value="rating">Rating</option>
+  </select>
+</label>
+
 <div *ngFor="let p of products">
-  <a [routerLink]="['/products', p.id]">{{ p.name }}</a>
+  <a [routerLink]="['/products', p.id]">{{ p.name }} - {{ p.price | currency }}</a>
   <button (click)="addToCart(p)">Add to Cart</button>
 </div>

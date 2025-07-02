@@ -1,14 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-toast',
   templateUrl: './toast.component.html',
   styleUrls: ['./toast.component.css']
 })
-export class ToastComponent {
+export class ToastComponent implements OnInit {
   messages: string[] = [];
-  show(message: string) {
-    this.messages.push(message);
-    setTimeout(() => this.messages.shift(), 3000);
+  constructor(private toastService: ToastService) {}
+
+  ngOnInit() {
+    this.toastService.messages$.subscribe(message => {
+      this.messages.push(message);
+      setTimeout(() => this.messages.shift(), 3000);
+    });
   }
 }

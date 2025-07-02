@@ -1,3 +1,7 @@
 <h2>{{ product?.name }}</h2>
 <p>{{ product?.description }}</p>
+<p>Brand: {{ product?.brand }}</p>
+<p>Category: {{ product?.category }}</p>
+<p>Price: {{ product?.price | currency }}</p>
+<p>Rating: {{ product?.rating }}</p>
 <button (click)="addToCart()">Add to Cart</button>

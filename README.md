@@ -1,6 +1,6 @@
 # Dimension3
 
-This repository contains a skeleton Angular e-commerce frontend. To run the project you will need Node.js and the Angular CLI installed.
+This repository contains a simple Angular e-commerce frontend. It includes basic business logic for products, cart management, authentication, and orders. To run the project you will need Node.js and the Angular CLI installed.
 
 ## Setup
 
