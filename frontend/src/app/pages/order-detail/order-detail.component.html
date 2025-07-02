@@ -1,0 +1,5 @@
+<h2>Order {{ order?.id }}</h2>
+<ul>
+  <li *ngFor="let item of order?.items">{{ item.name }} x {{ item.qty }}</li>
+</ul>
+<p>Status: {{ order?.status }}</p>

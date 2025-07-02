@@ -1,0 +1,8 @@
+<h2>Checkout</h2>
+<form #f="ngForm" (ngSubmit)="checkout()">
+  <h3>Shipping</h3>
+  <input name="address" [(ngModel)]="shipping.address" placeholder="Address" required />
+  <h3>Payment</h3>
+  <input name="card" [(ngModel)]="payment.card" placeholder="Card Number" required />
+  <button type="submit" [disabled]="!f.valid">Place Order</button>
+</form>

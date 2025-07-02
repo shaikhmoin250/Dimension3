@@ -1,0 +1,11 @@
+<nav>
+  <a routerLink="/">Home</a>
+  <a routerLink="/products">Products</a>
+  <a routerLink="/cart">Cart</a>
+  <a routerLink="/my-orders" *ngIf="auth.loggedIn">My Orders</a>
+  <a routerLink="/login" *ngIf="!auth.loggedIn">Login</a>
+  <a routerLink="/register" *ngIf="!auth.loggedIn">Register</a>
+  <span *ngIf="auth.loggedIn">Welcome, {{auth.username}}</span>
+  <button (click)="auth.logout()" *ngIf="auth.loggedIn">Logout</button>
+  <button (click)="toggleTheme()">{{ theme.dark ? 'Light' : 'Dark' }} Mode</button>
+</nav>
