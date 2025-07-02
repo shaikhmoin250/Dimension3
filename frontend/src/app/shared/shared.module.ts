@@ -7,6 +7,7 @@ import { FooterComponent } from '../components/footer/footer.component';
 import { SearchBarComponent } from '../components/search-bar/search-bar.component';
 import { ToastComponent } from '../components/toast/toast.component';
 import { LoadingSpinnerComponent } from '../components/loading-spinner/loading-spinner.component';
+import { TranslatePipe } from '../pipes/translate.pipe';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { LoadingSpinnerComponent } from '../components/loading-spinner/loading-s
     FooterComponent,
     SearchBarComponent,
     ToastComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    TranslatePipe
   ],
   imports: [CommonModule, FormsModule],
   exports: [
@@ -23,6 +25,7 @@ import { LoadingSpinnerComponent } from '../components/loading-spinner/loading-s
     SearchBarComponent,
     ToastComponent,
     LoadingSpinnerComponent,
+    TranslatePipe,
     CommonModule,
     FormsModule
   ]

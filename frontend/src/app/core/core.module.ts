@@ -1,4 +1,5 @@
 import { NgModule, Optional, SkipSelf, ErrorHandler } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../config/app-config';
 import { environment } from '../../environments/environment';
 
@@ -11,6 +12,7 @@ import { ToastService } from '../services/toast.service';
 import { GlobalErrorHandler } from './global-error-handler';
 
 @NgModule({
+  imports: [HttpClientModule],
   providers: [
     { provide: APP_CONFIG, useValue: { apiUrl: environment.apiUrl } as AppConfig },
     { provide: ErrorHandler, useClass: GlobalErrorHandler },

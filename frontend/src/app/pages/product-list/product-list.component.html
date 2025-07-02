@@ -1,8 +1,8 @@
-<h2>Products</h2>
+<h2>{{ 'productsTitle' | translate }}</h2>
 <app-search-bar (search)="onSearch($event)"></app-search-bar>
 
 <label>
-  Category:
+  {{ 'categoryLabel' | translate }}
   <select [(ngModel)]="category" (change)="applyFilters()">
     <option value="">All</option>
     <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
@@ -10,16 +10,16 @@
 </label>
 
 <label>
-  Sort:
+  {{ 'sortLabel' | translate }}
   <select [(ngModel)]="sort" (change)="applyFilters()">
     <option [ngValue]="''">Default</option>
-    <option [ngValue]="SortOption.PriceAsc">Price Low - High</option>
-    <option [ngValue]="SortOption.PriceDesc">Price High - Low</option>
-    <option [ngValue]="SortOption.Rating">Rating</option>
+    <option [ngValue]="SortOption.PriceAsc">{{ 'priceAsc' | translate }}</option>
+    <option [ngValue]="SortOption.PriceDesc">{{ 'priceDesc' | translate }}</option>
+    <option [ngValue]="SortOption.Rating">{{ 'rating' | translate }}</option>
   </select>
 </label>
 
 <div *ngFor="let p of (products$ | async); trackBy: trackById">
   <a [routerLink]="['/products', p.id]">{{ p.name }} - {{ p.price | currency }}</a>
-  <button (click)="addToCart(p)">Add to Cart</button>
+  <button (click)="addToCart(p)">{{ 'addToCart' | translate }}</button>
 </div>

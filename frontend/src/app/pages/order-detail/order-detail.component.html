@@ -1,11 +1,11 @@
 <ng-container *ngIf="order$ | async as order">
-  <h2>Order {{ order.id }}</h2>
+  <h2>{{ 'order' | translate }} {{ order.id }}</h2>
   <ul>
     <li *ngFor="let item of order.items; trackBy: trackByProduct">
       {{ item.product.name }} x {{ item.qty }}
     </li>
   </ul>
-  <p>Status: {{ order.status }}</p>
-  <p>Shipping Address: {{ order.shipping.address }}</p>
-  <p>Payment: ****{{ order.payment.card.slice(-4) }}</p>
+  <p>{{ 'status' | translate }} {{ order.status }}</p>
+  <p>{{ 'shippingAddress' | translate }} {{ order.shipping.address }}</p>
+  <p>{{ 'paymentMethod' | translate }} ****{{ order.payment.card.slice(-4) }}</p>
 </ng-container>

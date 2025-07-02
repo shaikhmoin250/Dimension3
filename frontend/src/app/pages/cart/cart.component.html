@@ -1,8 +1,8 @@
-<h2>Your Cart</h2>
+<h2>{{ 'yourCart' | translate }}</h2>
 <div *ngFor="let item of (items$ | async); let i=index; trackBy: trackById">
   {{ item.product.name }} x
   <input type="number" [ngModel]="item.qty" (ngModelChange)="update(item.product.id, $event)" min="1" />
-  <button (click)="remove(i)">Remove</button>
+  <button (click)="remove(i)">{{ 'remove' | translate }}</button>
 </div>
-<p>Total: {{ (total$ | async) | currency }}</p>
-<button routerLink="/checkout" [disabled]="!(items$ | async)?.length">Checkout</button>
+<p>{{ 'total' | translate }} {{ (total$ | async) | currency }}</p>
+<button routerLink="/checkout" [disabled]="!(items$ | async)?.length">{{ 'checkout' | translate }}</button>

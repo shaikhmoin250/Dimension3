@@ -32,3 +32,11 @@ The application registers a global `ErrorHandler` that logs unexpected errors to
 the console and displays a toast notification. Local storage operations in the
 core services are wrapped in `try/catch` blocks so the app can recover from
 corrupt data or quota failures.
+
+### Language support
+
+Users can switch between countries (currently US and FR) from the navbar. The
+`LanguageService` loads translation files from `src/assets/i18n` and exposes a
+`translate` pipe so templates automatically update when the country changes.
+To add a new language, create a JSON file under `src/assets/i18n` and map the
+country code in `LanguageService.countryToLang()`.
