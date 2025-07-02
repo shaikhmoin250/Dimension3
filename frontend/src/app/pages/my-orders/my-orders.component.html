@@ -1,6 +1,6 @@
 <h2>My Orders</h2>
 <ul>
-  <li *ngFor="let order of orders">
+  <li *ngFor="let order of (orders$ | async); trackBy: trackById">
     <a [routerLink]="['/orders', order.id]">Order {{ order.id }}</a>
   </li>
 </ul>

@@ -7,6 +7,10 @@ import { ProductService } from '../../services/product.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  featured = this.productService.getFeatured();
-  constructor(private productService: ProductService) {}
+  readonly featured$ = this.productService.getFeatured$();
+  constructor(private readonly productService: ProductService) {}
+
+  trackById(_: number, item: { id: string }) {
+    return item.id;
+  }
 }

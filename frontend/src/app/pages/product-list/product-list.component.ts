@@ -1,22 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { CartService } from '../../services/cart.service';
-import { Product } from '../../models';
+import { Product, SortOption } from '../../models';
 import { ToastService } from '../../services/toast.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css']
 })
-export class ProductListComponent {
-  products: Product[] = [];
+export class ProductListComponent implements OnInit {
+  products$!: Observable<Product[]>;
   query = '';
   category = '';
-  sort = '';
-  categories = this.productService.getCategories();
+  sort: SortOption = SortOption.Default;
+  readonly SortOption = SortOption;
+  readonly categories = this.productService.getCategories();
 
-  constructor(private productService: ProductService, private cart: CartService, private toast: ToastService) {
+  constructor(private readonly productService: ProductService, private readonly cart: CartService, private readonly toast: ToastService) {}
+
+  ngOnInit() {
     this.applyFilters();
   }
 
@@ -26,11 +30,15 @@ export class ProductListComponent {
   }
 
   applyFilters() {
-    this.products = this.productService.filterProducts(this.query, this.category, this.sort);
+    this.products$ = this.productService.filterProducts$(this.query, this.category, this.sort);
   }
 
   addToCart(p: Product) {
     this.cart.add(p);
     this.toast.show('Added to cart');
+  }
+
+  trackById(_: number, p: Product) {
+    return p.id;
   }
 }

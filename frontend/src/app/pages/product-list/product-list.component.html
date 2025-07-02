@@ -12,14 +12,14 @@
 <label>
   Sort:
   <select [(ngModel)]="sort" (change)="applyFilters()">
-    <option value="">Default</option>
-    <option value="priceAsc">Price Low - High</option>
-    <option value="priceDesc">Price High - Low</option>
-    <option value="rating">Rating</option>
+    <option [ngValue]="''">Default</option>
+    <option [ngValue]="SortOption.PriceAsc">Price Low - High</option>
+    <option [ngValue]="SortOption.PriceDesc">Price High - Low</option>
+    <option [ngValue]="SortOption.Rating">Rating</option>
   </select>
 </label>
 
-<div *ngFor="let p of products">
+<div *ngFor="let p of (products$ | async); trackBy: trackById">
   <a [routerLink]="['/products', p.id]">{{ p.name }} - {{ p.price | currency }}</a>
   <button (click)="addToCart(p)">Add to Cart</button>
 </div>

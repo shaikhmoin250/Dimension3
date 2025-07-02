@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { Product } from '../models';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Product, SortOption } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
@@ -43,7 +44,7 @@ export class ProductService {
   /**
    * Filter and sort products locally.
    */
-  filterProducts(query = '', category = '', sort = ''): Product[] {
+  filterProducts(query = '', category = '', sort: SortOption = SortOption.Default): Product[] {
     let res = this.getAll();
     if (query) {
       const q = query.toLowerCase();
@@ -52,20 +53,29 @@ export class ProductService {
     if (category) {
       res = res.filter(p => p.category === category);
     }
-    if (sort === 'priceAsc') {
+    if (sort === SortOption.PriceAsc) {
       res.sort((a, b) => a.price - b.price);
-    } else if (sort === 'priceDesc') {
+    } else if (sort === SortOption.PriceDesc) {
       res.sort((a, b) => b.price - a.price);
-    } else if (sort === 'rating') {
+    } else if (sort === SortOption.Rating) {
       res.sort((a, b) => b.rating - a.rating);
     }
     return res;
   }
 
   /**
+   * Reactive filter returning an observable.
+   */
+  filterProducts$(query = '', category = '', sort: SortOption = SortOption.Default): Observable<Product[]> {
+    return this.products$.pipe(
+      map(() => this.filterProducts(query, category, sort))
+    );
+  }
+
+  /**
    * Return a small set of featured products.
    */
-  getFeatured(): Product[] {
-    return this.productsSubject.value.slice(0, 1);
+  getFeatured$(): Observable<Product[]> {
+    return this.products$.pipe(map(items => items.slice(0, 1)));
   }
 }

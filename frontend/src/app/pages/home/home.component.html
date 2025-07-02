@@ -1,4 +1,4 @@
 <h1>Welcome to the Store</h1>
-<div *ngFor="let product of featured">
+<div *ngFor="let product of (featured$ | async); trackBy: trackById">
   <a [routerLink]="['/products', product.id]">{{ product.name }}</a>
 </div>

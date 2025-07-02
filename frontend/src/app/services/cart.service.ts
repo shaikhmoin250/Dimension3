@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { CartItem, Product } from '../models';
 
 @Injectable({ providedIn: 'root' })
@@ -9,6 +10,7 @@ export class CartService {
    * Observable stream of cart items.
    */
   readonly items$ = this.itemsSubject.asObservable();
+  readonly total$ = this.items$.pipe(map(items => items.reduce((t, i) => t + i.product.price * i.qty, 0)));
 
   /**
    * Snapshot of current items.
