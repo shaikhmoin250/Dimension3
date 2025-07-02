@@ -1,7 +1,7 @@
 <h2>Your Cart</h2>
 <div *ngFor="let item of cart.items; let i=index">
-  {{ item.name }} x
-  <input type="number" [(ngModel)]="item.qty" (ngModelChange)="update(item.id, item.qty)" min="1" />
+  {{ item.product.name }} x
+  <input type="number" [(ngModel)]="item.qty" (ngModelChange)="update(item.product.id, item.qty)" min="1" />
   <button (click)="remove(i)">Remove</button>
 </div>
 <p>Total: {{ cart.total() | currency }}</p>

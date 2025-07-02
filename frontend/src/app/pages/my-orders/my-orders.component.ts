@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { OrderService } from '../../services/order.service';
 import { AuthService } from '../../services/auth.service';
+import { Order } from '../../models';
 
 @Component({
   selector: 'app-my-orders',
@@ -8,12 +9,14 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./my-orders.component.css']
 })
 export class MyOrdersComponent {
-  orders = [] as any[];
+  orders: Order[] = [];
   constructor(private orderService: OrderService, private auth: AuthService) {
     this.load();
   }
 
   load() {
-    this.orders = this.orderService.getOrdersForUser(this.auth.username);
+    if (this.auth.loggedIn) {
+      this.orders = this.orderService.getOrdersForUser(this.auth.username);
+    }
   }
 }

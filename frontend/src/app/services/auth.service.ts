@@ -1,53 +1,73 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { User } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  loggedIn = false;
-  username = '';
+  private readonly currentUserSubject = new BehaviorSubject<string | null>(null);
+  /**
+   * Observable emitting the current username or null when logged out.
+   */
+  readonly currentUser$ = this.currentUserSubject.asObservable();
+
+  /** Snapshot of the logged in username. */
+  get username(): string {
+    return this.currentUserSubject.value ?? '';
+  }
+
+  /** True if a user is logged in. */
+  get loggedIn(): boolean {
+    return !!this.currentUserSubject.value;
+  }
 
   constructor() {
     const session = localStorage.getItem('session');
     if (session) {
-      this.loggedIn = true;
-      this.username = session;
+      this.currentUserSubject.next(session);
     }
   }
 
-  private getUsers(): any[] {
+  private getUsers(): User[] {
     return JSON.parse(localStorage.getItem('users') || '[]');
   }
 
-  private saveUsers(users: any[]) {
+  private saveUsers(users: User[]) {
     localStorage.setItem('users', JSON.stringify(users));
   }
 
-  login(u: string, p: string) {
+  /**
+   * Attempt a login with username and password.
+   */
+  login(u: string, p: string): boolean {
     const user = this.getUsers().find(x => x.username === u && x.password === p);
     if (user) {
-      this.loggedIn = true;
-      this.username = u;
+      this.currentUserSubject.next(u);
       localStorage.setItem('session', u);
       return true;
     }
     return false;
   }
 
-  register(u: string, p: string) {
+  /**
+   * Create a new user account and log them in.
+   */
+  register(u: string, p: string): boolean {
     const users = this.getUsers();
     if (users.find(x => x.username === u)) {
       return false;
     }
     users.push({ username: u, password: p });
     this.saveUsers(users);
-    this.loggedIn = true;
-    this.username = u;
+    this.currentUserSubject.next(u);
     localStorage.setItem('session', u);
     return true;
   }
 
+  /**
+   * Log out the current user.
+   */
   logout() {
-    this.loggedIn = false;
-    this.username = '';
+    this.currentUserSubject.next(null);
     localStorage.removeItem('session');
   }
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { Product, ProductService } from '../../services/product.service';
+import { ProductService } from '../../services/product.service';
 import { CartService } from '../../services/cart.service';
+import { Product } from '../../models';
 import { ToastService } from '../../services/toast.service';
 
 @Component({
@@ -28,7 +29,7 @@ export class ProductListComponent {
     this.products = this.productService.filterProducts(this.query, this.category, this.sort);
   }
 
-  addToCart(p: any) {
+  addToCart(p: Product) {
     this.cart.add(p);
     this.toast.show('Added to cart');
   }
