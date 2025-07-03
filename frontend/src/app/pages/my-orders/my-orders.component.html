@@ -1,0 +1,6 @@
+<h2>{{ 'myOrdersNav' | translate }}</h2>
+<ul>
+  <li *ngFor="let order of (orders$ | async); trackBy: trackById">
+    <a [routerLink]="['/orders', order.id]">{{ 'order' | translate }} {{ order.id }}</a>
+  </li>
+</ul>

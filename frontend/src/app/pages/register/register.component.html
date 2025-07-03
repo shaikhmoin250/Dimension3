@@ -1,0 +1,6 @@
+<h2>{{ 'registerTitle' | translate }}</h2>
+<form (ngSubmit)="register()" #f="ngForm">
+  <input name="username" [(ngModel)]="username" required [placeholder]="'username' | translate" />
+  <input type="password" name="password" [(ngModel)]="password" required [placeholder]="'password' | translate" />
+  <button type="submit" [disabled]="!f.valid">{{ 'registerNav' | translate }}</button>
+</form>

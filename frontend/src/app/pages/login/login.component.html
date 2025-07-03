@@ -1,0 +1,6 @@
+<h2>{{ 'loginTitle' | translate }}</h2>
+<form (ngSubmit)="login()" #f="ngForm">
+  <input name="username" [(ngModel)]="username" required [placeholder]="'username' | translate" />
+  <input type="password" name="password" [(ngModel)]="password" required [placeholder]="'password' | translate" />
+  <button type="submit" [disabled]="!f.valid">{{ 'loginNav' | translate }}</button>
+</form>

@@ -1,0 +1,9 @@
+<ng-container *ngIf="product$ | async as product">
+  <h2>{{ product.name }}</h2>
+  <p>{{ product.description }}</p>
+  <p>{{ 'brand' | translate }} {{ product.brand }}</p>
+  <p>{{ 'category' | translate }} {{ product.category }}</p>
+  <p>{{ 'price' | translate }} {{ product.price | currency }}</p>
+  <p>{{ 'ratingLabel' | translate }} {{ product.rating }}</p>
+  <button (click)="addToCart(product)">{{ 'addToCart' | translate }}</button>
+</ng-container>

@@ -1,0 +1,15 @@
+<nav>
+  <a routerLink="/">{{ 'homeNav' | translate }}</a>
+  <a routerLink="/products">{{ 'productsNav' | translate }}</a>
+  <a routerLink="/cart">{{ 'cartNav' | translate }}</a>
+  <a routerLink="/my-orders" *ngIf="auth.loggedIn">{{ 'myOrdersNav' | translate }}</a>
+  <a routerLink="/login" *ngIf="!auth.loggedIn">{{ 'loginNav' | translate }}</a>
+  <a routerLink="/register" *ngIf="!auth.loggedIn">{{ 'registerNav' | translate }}</a>
+  <span *ngIf="auth.loggedIn">{{ 'welcome' | translate }} {{auth.username}}</span>
+  <button (click)="auth.logout()" *ngIf="auth.loggedIn">{{ 'logout' | translate }}</button>
+  <button (click)="toggleTheme()">{{ theme.dark ? ('lightMode' | translate) : ('darkMode' | translate) }}</button>
+  <select [(ngModel)]="country" (change)="changeCountry(country)">
+    <option value="US">US</option>
+    <option value="FR">FR</option>
+  </select>
+</nav>

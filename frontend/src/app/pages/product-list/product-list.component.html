@@ -1,0 +1,25 @@
+<h2>{{ 'productsTitle' | translate }}</h2>
+<app-search-bar (search)="onSearch($event)"></app-search-bar>
+
+<label>
+  {{ 'categoryLabel' | translate }}
+  <select [(ngModel)]="category" (change)="applyFilters()">
+    <option value="">All</option>
+    <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
+  </select>
+</label>
+
+<label>
+  {{ 'sortLabel' | translate }}
+  <select [(ngModel)]="sort" (change)="applyFilters()">
+    <option [ngValue]="''">Default</option>
+    <option [ngValue]="SortOption.PriceAsc">{{ 'priceAsc' | translate }}</option>
+    <option [ngValue]="SortOption.PriceDesc">{{ 'priceDesc' | translate }}</option>
+    <option [ngValue]="SortOption.Rating">{{ 'rating' | translate }}</option>
+  </select>
+</label>
+
+<div *ngFor="let p of (products$ | async); trackBy: trackById">
+  <a [routerLink]="['/products', p.id]">{{ p.name }} - {{ p.price | currency }}</a>
+  <button (click)="addToCart(p)">{{ 'addToCart' | translate }}</button>
+</div>
